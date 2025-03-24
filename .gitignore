@@ -38,3 +38,16 @@ Thumbs.db
 
 # git
 .git/*
+
+
+# vs
+.vs/*
+*/.vs/*
+
+
+
+#output
+*/build/*
+*/output/*
+*/Debug/*
+*/Release/*
