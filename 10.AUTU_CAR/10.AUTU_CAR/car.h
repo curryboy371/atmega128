@@ -12,6 +12,8 @@
 #define DISTANCE 25
 #define TURN_DISTANCE 20
 
+#define LR_DIFF_DISTANCE 25
+
 #define CRITICAL_DISTANCE 3
 
 void init_car();

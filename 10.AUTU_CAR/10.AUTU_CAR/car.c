@@ -78,11 +78,9 @@ void operate_car() {
 	}
 
 	fnd_display(bAutoMode);
-	
 	if(play_sound()) {
 		;
 	}
-		
 }
 
 
@@ -155,10 +153,6 @@ void update_auto_direction() {
 		// 전방이 막히면
 		if(distances[ULTRASONIC_FORWARD] < DISTANCE) {
 			
-			//if(turn_delay_count <= 0) {
-			//	turn_delay_count = 0;
-			//}
-			
 			if(distances[ULTRASONIC_LEFT] > distances[ULTRASONIC_RIGHT]) {
 
 				eNewDirection = EDIR_LEFT;
@@ -173,27 +167,36 @@ void update_auto_direction() {
 					eNewDirection = EDIR_BACKWARD;
 				}
 			}
-			
-			//if(turn_delay_count > 0 || dir_delay_count > 0) {
-			//	eNewDirection = EDIR_STOP;
-			//}
 		}
 		else {
+			// 전방이 열린 경우
 			
 			eNewDirection = EDIR_FOWARD;
 			
+			// 비스듬하게 끼어있는 경우를 방지하기 위한 CRITICAL_DISTANCE 처리
 			if(CRITICAL_DISTANCE > distances[ULTRASONIC_RIGHT] && distances[ULTRASONIC_LEFT] > TURN_DISTANCE) {
 				eNewDirection = EDIR_LEFT;
 			}
-			
 			if(CRITICAL_DISTANCE > distances[ULTRASONIC_LEFT] && distances[ULTRASONIC_RIGHT] > TURN_DISTANCE) {
 				eNewDirection = EDIR_RIGHT;
 			}
 			
 			if(eNewDirection == EDIR_FOWARD) {
-				if(distances > DISTANCE + 5) {
-					eNewDirection = EDIR_POWER_FORWARD;
+			
+				// 전방으로 갈때 좌우 거리차가 일정 크기 이상이면 중앙으로 이동
+				int distanceDiffLR = abs(distances[ULTRASONIC_RIGHT] - distances[ULTRASONIC_LEFT]);
+				
+				if(distanceDiffLR > LR_DIFF_DISTANCE) {
+					eNewDirection = distances[ULTRASONIC_RIGHT] > distances[ULTRASONIC_LEFT] ? EDIR_SHORT_RIGHT : EDIR_SHORT_LEFT;
 				}
+				else {
+					
+					if(distances[ULTRASONIC_FORWARD] > DISTANCE + 5) {
+						eNewDirection = EDIR_POWER_FORWARD;
+					}
+				}
+				
+
 				
 			}
 		}
@@ -257,8 +260,16 @@ void operate_auto_car() {
 		L298N_backward(400);
 		break;
 		
+		case EDIR_SHORT_RIGHT:
+		L298N_turn_right(500);
+		break;
+		
 		case EDIR_RIGHT:
 		L298N_turn_right(1200);
+		break;
+		
+		case EDIR_SHORT_LEFT:
+		L298N_turn_left(500);
 		break;
 		
 		case EDIR_LEFT:

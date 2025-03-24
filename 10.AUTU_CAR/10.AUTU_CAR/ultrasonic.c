@@ -247,6 +247,10 @@ uint8_t get_ultrasonic_distance(int outDistances[]) {
 		return FAILED;
 	}
 	
+	// max값 보정
+	if(distance > MAX_DISTANCE) {
+		distance  = MAX_DISTANCE;
+	}
 	outDistances[preStep] = distance;  
 	
 	return SUCCESS;
