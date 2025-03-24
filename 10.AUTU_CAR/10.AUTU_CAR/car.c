@@ -189,6 +189,13 @@ void update_auto_direction() {
 			if(CRITICAL_DISTANCE > distances[ULTRASONIC_LEFT] && distances[ULTRASONIC_RIGHT] > TURN_DISTANCE) {
 				eNewDirection = EDIR_RIGHT;
 			}
+			
+			if(eNewDirection == EDIR_FOWARD) {
+				if(distances > DISTANCE + 5) {
+					eNewDirection = EDIR_POWER_FORWARD;
+				}
+				
+			}
 		}
 		
 		//printf("r=%d f=%d l=%d dir=%d \r\n", distances[ULTRASONIC_RIGHT], distances[ULTRASONIC_FORWARD], distances[ULTRASONIC_LEFT], eNewDirection);
@@ -202,6 +209,10 @@ void operate_manual_car() {
 	}
 	
 	switch(eNewDirection) {
+		case EDIR_POWER_FORWARD:
+		L298N_forward(800); // 펄스1 = 4us * 500 = 0.002sec ( 2ms)
+		break;
+		
 		case EDIR_FOWARD:
 		L298N_forward(500); // 펄스1 = 4us * 500 = 0.002sec ( 2ms)
 		break;
@@ -234,6 +245,9 @@ void operate_auto_car() {
 	}
 	
 	switch(eNewDirection) {
+		case EDIR_POWER_FORWARD:
+		L298N_forward(800); // 펄스1 = 4us * 500 = 0.002sec ( 2ms)
+		break;
 		
 		case EDIR_FOWARD:
 		L298N_forward(400);

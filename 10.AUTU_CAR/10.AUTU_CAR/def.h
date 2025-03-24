@@ -64,6 +64,7 @@ typedef enum {
 
 typedef enum {
 	EDIR_STOP,
+	EDIR_POWER_FORWARD,
 	EDIR_FOWARD,
 	EDIR_BACKWARD,
 	EDIR_RIGHT,
