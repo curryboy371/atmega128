@@ -1,0 +1,40 @@
+# AVR GCC build files
+*.o
+*.elf
+*.hex
+*.bin
+*.lst
+*.map
+*.eep
+*.lss
+*.srec
+
+# Compiler backup files
+*~
+*.swp
+*.bak
+
+# Object dump
+*.d
+
+# Output directories (optional)
+build/
+output/
+Debug/
+Release/
+
+# Editor specific
+.vscode/
+*.log
+
+# Makefile dependencies
+.dep/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# git
+.git/*
